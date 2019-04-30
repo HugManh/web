@@ -1,0 +1,39 @@
+.logo{
+	width: 50%;
+}
+
+.dropdown-item{
+	margin: 100px;
+}
+
+.dropdowm:hover>.dropdown-menu{
+	display: block;
+	color: red;
+}
+
+.search {
+    border: 1px solid blueviolet;
+    border-radius: 22px;
+    padding-left: 10px;
+    height: 40px;
+}
+
+.search:focus{
+	width: 300px;
+}
+
+
+#message {
+    display: none;
+    color: #000;
+    font-size: 14px;
+    margin: -24px 0px -13px;
+}
+
+.valid{
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
