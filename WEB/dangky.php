@@ -1,5 +1,6 @@
 <?php
-require('connect.php');
+session_start();
+include('connect.php');
 
 $statusMsg = '';
 // File upload path
@@ -12,15 +13,17 @@ if(isset($_POST['submit']) && !empty($_FILES["avatar"]["name"])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$password2 = $_POST['password2'];
-
+	if(strlen($username) < 6 or strlen($password) < 6){
+	    echo '<script language="javascript">alert("Mật khẩu phải trên 5 ký tự! Bạn hãy đăng ký lại!"); window.location="index.php";</script>';
+	}
 	if($password2!=$password){
-		echo '<p style = "color:red">Password không trùng nhau yêu cầu nhập lại</p>';
+		echo '<script language="javascript">alert("Mật khẩu trung nhau! Bạn hãy đăng ký lại!"); window.location="index.php";</script>';
 	}else{
-		$sql = "SELECT * FROM thongtinnguoidung WHERE username == '$username' AND avatar == '$fileName'";
+		$sql = "SELECT * FROM thongtinnguoidung WHERE username = '$username'";
 		$query = mysqli_query($con,$sql);
-		$allowTypes = array('jpg','png','jpeg','gif','pdf');
-
-		if($query == 0){
+		$num = mysqli_num_rows($query);
+		$allowTypes = array('jpg','png','jpeg','gif');
+		if($num == 0){
 			if(in_array($fileType, $allowTypes)){
                 // Upload file to server
 				if(move_uploaded_file($_FILES["avatar"]["tmp_name"], $targetFilePath)){
@@ -28,21 +31,23 @@ if(isset($_POST['submit']) && !empty($_FILES["avatar"]["name"])){
                     $query = "INSERT INTO thongtinnguoidung ( username, password, avatar, date_created) VALUES ('$username', '$password', '$fileName', NOW())";
 					$insert = mysqli_query($con, $query);
 					if($insert){
-						$_SESSION['avatar'] = $data['avatar'];
-						$_SESSION['username'] = $data['username'];
-						//Dang ký thành công
-						header('location:Trangchu1.php');						
+						echo '<script language="javascript">alert("Đăng ký thành công! Mời bạn đăng nhập!"); window.location="index.php";</script>';					
 					}else{
-						echo "file load bị lỗi";
+						echo '<script language="javascript">alert("Đăng ký không thành công! Bạn hãy đăng ký lại!1"); window.location="index.php";</script>';
 					} 
 				}else{
-					$statusMsg = "upload file bị lỗi";
+					echo '<script language="javascript">alert("Đăng ký không thành công! Bạn hãy đăng ký lại!2"); window.location="index.php";</script>';
 				}
 			}
 		    else{
-			    $statusMsg = 'Chỉ load file : JPG, JPEG, PNG, GIF, & PDF ';
+		    	echo '<script language="javascript">alert("Định dạng ảnh không đúng! Bạn hãy đăng ký lại!"); window.location="index.php";</script>';
 		    }
 	    }
+	    else{
+	    	echo '<script language="javascript">alert("Tên tài khoản đã tồn tại! Bạn hãy đăng ký lại!"); window.location="index.php";</script>';
+	    	
+	    }
+	    
     }
 }
 ?>

@@ -9,12 +9,13 @@ if(isset($_POST['submit'])){
 	$query = mysqli_query($con, $sql);
 	$num = mysqli_num_rows($query);
 	if($num == 0){
-		header('location:Trangchu.php');
+		echo '<script language="javascript">alert("Không tồn tại tài khoản! Mời bạn đăng nhập!"); window.location="index.php";</script>';	
 	}else{
 		if (isset($_POST['remember'])) {
-            setcookie('user', $username, time() + 3600, '/', '', 0, 0);
-            setcookie('pass', $password, time() + 3600, '/', '', 0, 0);
+            setcookie('username', $username, time() + 3600, '/', '', 0, 0);
+            setcookie('password', $password, time() + 3600, '/', '', 0, 0);
         }
+        
 		$_SESSION['username'] = $username;
 		$sql1 = "SELECT * FROM thongtinnguoidung";
 		$query1 = mysqli_query($con,$sql1);
@@ -26,7 +27,7 @@ if(isset($_POST['submit'])){
 
 			}
 		} 
-		header('location:Trangchu1.php');
+		header('location:index1.php');
 
 	}
 	

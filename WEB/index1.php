@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +34,7 @@ session_start();
 			</div>
 		</div>
 	</header>
+
 	<div class="container-fluid">
 		<div class="navbar navbar-expand-sm bg-primary navbar-light" style="justify-content: space-between; padding: 0px; height: 56px; cursor: pointer;">
 			<ul class="navbar-nav menu">
@@ -69,7 +71,7 @@ session_start();
 					<div class="input-group">
 						<input type="text" name="search" class="search" value="Tim kiem san pham" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Tim kiem san pham';}">
 						<div class="input-group-append" style="margin-top: 9px; margin-left: -34px">
-							<a class="text-dark">
+							<a href="#" class="text-dark">
 								<i class="fa fa-search"></i>
 							</a>
 						</div>
@@ -85,7 +87,7 @@ session_start();
 									$tentaikhoan = $_SESSION['username'];
 									?>
 									<img src="<?php echo $imageURL; ?>" alt="avatar_user" style="width: 40px; height: 34px;" />
-                                    <p><?php echo $tentaikhoan; ?></p>
+									<p><?php echo $tentaikhoan; ?></p>
 									<?php
 								}
 								?>								
@@ -121,86 +123,86 @@ session_start();
 			</div>
 		</div>
 	</div>
+	<div class="container-fluid mt-4 mb-5">
+		<div class="jcarousel-wrapper">
+			<div class="jcarousel" data-jcarousel="true">
+				<ul>
+					<?php
+					include 'connect.php';
 
-	<section class="container-fluid">
-		<section id="container">
-			<div class="row" style="margin-top: 32px;">
-				
-				<div class="user_left col-md-3">
-					<div class="avatar" style="padding: 30px">
-						<img class="rounded-circle border border-light" src="<?php echo $imageURL; ?>" alt="webadmin">
-					</div>
-					<div class="mt-md-3">
-						<div class="user_info"><?php echo $tentaikhoan; ?></div>
-						<div class="content">
-							<?php
-									include 'connect.php';
-
-									$query = mysqli_query($con,"SELECT * FROM thongtinsanpham WHERE username_themsp = '$tentaikhoan'");
-									$num = mysqli_num_rows($query);
+					$query = mysqli_query($con,"SELECT * FROM thongtinsanpham ORDER BY time_sp DESC LIMIT 6");
+					if($query->num_rows > 0){
+						while($row = $query->fetch_assoc()){
+							$imageURL1 = 'sanpham/'.$row["img"];
 							?>
-							<label>
-								Số sản phẩm đã thêm : <?php echo "$num"; ?>
-							</label>
-						</div>
-					</div>
-					<div class="mt-md-3">
-						<div class="user_info">Chức năng thành viên</div>
-						<div class="content">
-							<ul>
-								<li><a href="taikhoancuatoi.php">Chỉnh sửa thông tin</a></li>
-								<li><a href="doimatkhau.php">Đổi mật khẩu</a></li>
-								<li><a href="themsanpham.php">Thêm sản phẩm</a></li>
-								<li><a href="sanphamdathem.php">Sản phẩm đã thêm</a></li>
-								<li><a href="sanphamdathich.php">Sản phẩm đã thích</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="user_right col-md-9">
+							<li>
+								<img class="img" src="<?php echo $imageURL1; ?>" alt="Hình ảnh sản phẩm">
+							</li>
 
-					<div>
-						<div class="mt-5" style="border: 1px solid #ddd; ">
-							<div class="title_tab">
-								<div class="title_header">Thông tin cá nhân</div>
-								<br class="clear"> 
-							</div>
-
-							<form action="doithongtin.php" class="form-horizontal" id="form_thongtin" enctype="multipart/form-data" method="post" role="form">
-								<div class="form-group mt-3">
-									<div class="input-group-prepend">
-										<label class="col-md-2 control-label">Tên tài khoản :</label>
-										<div class="col-sm-10">
-											<input type="text" name="upName" value="<?php echo $tentaikhoan; ?>" required>
-										</div>
-										
-									</div>									
-								</div>
-
-								<div class="form-group mt-3">
-									<div class="input-group-prepend">
-										<label class="col-md-2 control-label">Tên tài khoản :</label>
-										<div class="col-sm-10">
-											<img src="<?php echo $imageURL; ?>" alt="webadmin" style="width: 200px;">
-											<br>
-											<input type="file" name="upAvatar" required>
-										</div>									
-									</div>								
-								</div>
-								
-								<div class="form-group">
-									<div class="col-md-12">
-										<button type="submit" name="btnUpdate" class="btn btn-primary">Cập nhật</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
+						<?php }
+					} ?>
+				</ul>
 			</div>
 
+			<a href="#" class="jcarousel-control-prev" role="button" data-jcarouselcontrol="true">‹</a>
+			<a href="#" class="jcarousel-control-next" role="button" data-jcarouselcontrol="true">›</a>
+
+			<p class="jcarousel-pagination" data-jcarouselpagination="true">
+				<a href="#1" class="">1</a>
+				<a href="#2" class="">2</a>
+				<a href="#3" class="">3</a>
+				<a href="#4" class="">4</a>
+				<a href="#5" class="">5</a>
+				<a href="#6" class="active">6</a>
+			</p>
+		</div>
+	</div>
+	<section class="container-fluid mt-5">
+		<section class="text-center mb-4">
+
+			<div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+				<?php
+				include 'connect.php';
+
+				$query = mysqli_query($con,"SELECT * FROM thongtinsanpham ORDER BY time_sp DESC");
+				if($query->num_rows > 0){
+					while($row = $query->fetch_assoc()){
+						$imageURL1 = 'sanpham/'.$row["img"];
+						$tensp = $row['name'];
+						$giasp = $row['giatien'];
+						?>
+						<div class="col-lg-3 col-md-6 mb-4">
+							<div class="card">
+
+								<div class="view overlay">
+									<img src="<?php echo $imageURL1; ?>" class="card-img-top" alt="">
+									<a href="sanpham.php?id=<?php echo $row['ma_sp']?>">
+										<div class="mask rgba-white-slight waves-effect waves-light"></div>
+									</a>
+								</div>
+
+								<div class="card-body text-center">
+									<h5>
+										<strong>
+											<a href="sanpham.php?id=<?php echo $row['ma_sp']?>">
+												<span class="badge badge-pill primary-color"><?php echo $tensp; ?></span>
+											</a>
+										</strong>
+									</h5>
+
+									<h4 class="font-weight-bold blue-text">
+										<strong><?php echo $giasp; ?></strong>
+									</h4>
+
+								</div>
+							</div>
+						</div>
+					<?php }
+				} ?>
+			</div>
 		</section>
 	</section>
 
+	
 </body>
 </html>

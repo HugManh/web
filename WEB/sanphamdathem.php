@@ -1,31 +1,5 @@
-<?php
+<?php 
 session_start();
-require('connect.php');
-$username = $_SESSION['username'];
-if(isset($_POST['upPass'])){
-	$password = $_POST['password'];
-	$passnew = $_POST['passnew'];
-	if(strlen($passnew) < 6){
-		echo '<script language="javascript">alert("Mật khẩu nhiều hơn 5 ký tự!"); window.location="doimatkhau.php";</script>';
-	}else{
-		if($passnew==$password){
-			echo '<script language="javascript">alert("Trùng mật khẩu cũ!"); window.location="doimatkhau.php";</script>';
-		}else{
-			
-			$sql = "UPDATE thongtinnguoidung SET password = '$passnew' WHERE username = '$username'";
-
-			$query = mysqli_query($con,$sql);
-			if($query){
-				echo '<script language="javascript">alert("Thay đổi thành công!"); window.location="doimatkhau.php";</script>';;
-
-			}else{
-				echo '<script language="javascript">alert("Thay đổi không thành công!"); window.location="doimatkhau.php";</script>';
-			}
-		}
-	}
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +8,6 @@ if(isset($_POST['upPass'])){
 	<title>Trao đổi thông tin sản phẩm</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="shortcut icon" type="image/png" href="webimage/icon.png"/>
 	<!-- CSS, Boostrap -->
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -75,28 +48,28 @@ if(isset($_POST['upPass'])){
 						</li>
 						<li class="dropdown-divider"></li>
 						<li>
-							<a href="loaisp.php?loai_sp='Thời trang - Phụ kiện thời trang'" class="drowdown-item">Thời trang - Phụ kiện thời trang</a>
+							<a href="loaisp.php?loai_sp=<?php echo "Thời trang - Phụ kiện thời trang" ?>" class="drowdown-item">Thời trang - Phụ kiện thời trang</a>
 						</li>
 						<li class="dropdown-divider"></li>
 						<li>
-							<a href="loaisp.php?loai_sp='Phụ kiện - Thiết bị số'" class="drowdown-item">Phụ kiện - Thiết bị số</a>
+							<a href="loaisp.php?loai_sp=<?php echo "Phụ kiện - Thiết bị số" ?>" class="drowdown-item">Phụ kiện - Thiết bị số</a>
 						</li>
 						<li class="dropdown-divider"></li>
 						<li>
-							<a href="loaisp.php?loai_sp='Điện thoại - Máy tính bảng'" class="drowdown-item">Điện thoại - Máy tính bảng</a>
+							<a href="loaisp.php?loai_sp=<?php echo "Điện thoại - Máy tính bảng" ?>" class="drowdown-item">Điện thoại - Máy tính bảng</a>
 						</li>
 						<li>
-							<a href="loaisp.php?loai_sp='Loại khác'" class="drowdown-item">Loại khác</a>
+							<a href="loaisp.php?loai_sp=<?php echo "Loại khác" ?>" class="drowdown-item">Loại khác</a>
 						</li>
 					</ul>
 				</li>
 			</ul>
 			<div class="navbar-nav">
-				<form>
-					<div class="input-group" style="margin-top: 9px;">
-						<input type="text" class="search" value="Tim kiem san pham" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Tim kiem san pham';}">
+				<form action="timkiem.php" method="post" style="margin: auto;">
+					<div class="input-group">
+						<input type="text" name="search" class="search" value="Tim kiem san pham" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Tim kiem san pham';}">
 						<div class="input-group-append" style="margin-top: 9px; margin-left: -34px">
-							<a href="#" class="text-dark">
+							<a class="text-dark">
 								<i class="fa fa-search"></i>
 							</a>
 						</div>
@@ -111,7 +84,7 @@ if(isset($_POST['upPass'])){
 									$imageURL="avatar/".$_SESSION['avatar'];
 									$tentaikhoan = $_SESSION['username'];
 									?>
-									<img src="<?php echo $imageURL; ?>" alt="avatar_user" style="width: 40px;" />
+									<img src="<?php echo $imageURL; ?>" alt="avatar_user" style="width: 40px; height: 34px;" />
                                     <p><?php echo $tentaikhoan; ?></p>
 									<?php
 								}
@@ -127,11 +100,11 @@ if(isset($_POST['upPass'])){
 								</li>
 								<li class="dropdown-divider"></li>
 								<li>
-									<a href="sanphamdathem.php" class="drowdown-item">Sản phẩm đã thêm</a>
+									<a href="#" class="drowdown-item">Sản phẩm đã thêm</a>
 								</li>
 								<li class="dropdown-divider"></li>
 								<li>
-									<a href="sanphamdathich.php" class="drowdown-item">Sản phẩm đã thích</a>
+									<a href="#" class="drowdown-item">Sản phẩm đã thích</a>
 								</li>
 								<li class="dropdown-divider"></li>
 								<li>
@@ -149,12 +122,13 @@ if(isset($_POST['upPass'])){
 		</div>
 	</div>
 
-	<section id="middle" class="container-fluid">
+	<section class="container-fluid">
 		<section id="container">
-			<div class="row">
+			<div class="row" style="margin-top: 32px;">
+				
 				<div class="user_left col-md-3">
-					<div class="avatar">
-						<img class="rounded-circle" src="<?php echo $imageURL; ?>" alt="webadmin">
+					<div class="avatar" style="padding: 30px">
+						<img class="rounded-circle border border-light" src="<?php echo $imageURL; ?>" alt="webadmin">
 					</div>
 					<div class="mt-md-3">
 						<div class="user_info"><?php echo $tentaikhoan; ?></div>
@@ -188,35 +162,50 @@ if(isset($_POST['upPass'])){
 					<div>
 						<div class="mt-5" style="border: 1px solid #ddd; ">
 							<div class="title_tab">
-								<div class="title_header">Đổi mật khẩu</div>
+								<div class="title_header">Sản phẩm bạn đã thêm</div>
 								<br class="clear"> 
 							</div>
 
-							<form action="" class="form-horizontal" id="form_thongtin" enctype="multipart/form-data" method="post" role="form">
-								<div class="form-group mt-3">
-									<div class="input-group-prepend">
-										<label class="col-md-2 control-label">Mật khẩu cũ :</label>
-										<div class="col-sm-10">
-											<input type="password" name="password" placeholder="Mật khẩu cũ" required>
-										</div>
-										
-									</div>									
-								</div>
-								<div class="form-group mt-3">
-									<div class="input-group-prepend">
-										<label class="col-md-2 control-label">Mật khẩu mới :</label>
-										<div class="col-sm-10">
-											<input type="password" name="passnew" placeholder="Mật khẩu mới" required>
-										</div>									
-									</div>								
-								</div>
-								
-								<div class="form-group">
-									<div class="col-md-12">
-										<button class="btn btn-primary" type="submit" name="upPass">Đổi mật khẩu</button>
-									</div>
-								</div>
-							</form>
+							<div class="sp_moi">
+								<ul class="listsp">
+									<?php
+									include 'connect.php';
+
+									$query = mysqli_query($con,"SELECT * FROM thongtinsanpham WHERE username_themsp = '$tentaikhoan'");
+									if($query->num_rows > 0){
+										while($row = $query->fetch_assoc()){
+											$imageURL1 = 'sanpham/'.$row["img"];
+											$tensp = $row['name'];
+											$giasp = $row['giatien'];
+											?>
+											<li>
+												<div class="float-left" style="margin: 20px 10px 0px;">
+													<div class="item_sp">
+														<a href="sanpham.php?id=<?php echo $row['ma_sp']?>">
+															<img class="img" src="<?php echo $imageURL1; ?>" alt="Hình ảnh sản phẩm">
+															<div class="mt-4">
+																<div>
+																	<h5 class="card-title"><?php echo $tensp; ?></h5>
+																</div>
+																<div>
+																	<p class="card-text"><?php echo $giasp; ?> đồng</p>
+																</div>
+															</div>
+
+														</a>
+													</div>
+												</div>
+
+											</li>
+
+										<?php }
+									}else{ ?>
+										<p class="ml-4 mt-4" style="display: -webkit-inline-box;">Bạn chưa thêm sản phẩm nào. Ấn vào&nbsp<a href="themsanpham.php" class="p-0 text-primary"><b><i>thêm sản phẩm</i></b></a>&nbspđể đóng góp.</p>
+
+										<?php
+									} ?>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
